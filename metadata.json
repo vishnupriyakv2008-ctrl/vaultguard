@@ -1,7 +1,0 @@
-{
-  "name": "VaultGuard",
-  "description": "Receipt and warranty custody vault with optical extraction, expiration tracking, return email drafter, and RevenueCat monetization.",
-  "requestFramePermissions": ["camera"],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
-

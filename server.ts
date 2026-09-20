@@ -3,7 +3,6 @@ dotenv.config();
 
 import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
-import { createServer as createViteServer } from 'vite';
 import { Database } from './server/db.js';
 import { createJwtToken, verifyJwtToken } from './server/crypto.js';
 import { extractReceiptData, generateClaimEmail } from './server/ocr.js';
@@ -11,7 +10,7 @@ import { getRevenueCatSubscriber, testRevenueCatConnection, REVENUECAT_API_KEY }
 import { VaultItem } from './src/types.js';
 
 const app = express();
-const PORT = 3000;
+const PORT = Number(process.env.PORT) || 3000;
 const startTime = Date.now();
 
 // Track latency & metrics
@@ -408,7 +407,14 @@ app.get('/api/docs/spec', (req: Request, res: Response) => {
 
 // Vite Middleware for Frontend Serving
 async function start() {
-  if (process.env.NODE_ENV !== 'production') {
+  // `npm start` runs the bundled dist/server.cjs, so treat that as production
+  // even when NODE_ENV is not set (keeps the command cross-platform).
+  const isProduction =
+    process.env.NODE_ENV === 'production' || path.basename(process.argv[1] ?? '') === 'server.cjs';
+
+  if (!isProduction) {
+    // Loaded lazily so the production bundle never needs Vite at runtime.
+    const { createServer: createViteServer } = await import('vite');
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: 'spa',
