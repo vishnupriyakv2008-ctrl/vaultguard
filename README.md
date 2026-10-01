@@ -140,7 +140,3 @@ Also worth building after the hackathon:
 
 ---
 
-## Links
-
-- Devpost: _add link_
-- Contact: _add email_
