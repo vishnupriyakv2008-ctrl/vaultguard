@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Warranty Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f7fb;--card:#fff;--ink:#16213a;--mute:#5a6580;--line:#e1e7f0;--acc:#5b3df5;--acc-ink:#fff;--soft:#ece9ff;--ok:#12805c;--warn:#b45309;--bad:#c0262d;--r:20px;--s:0 6px 24px rgba(22,33,58,.07);--f1:'Bricolage Grotesque',system-ui,sans-serif;--f2:'DM Sans',system-ui,sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1526;--card:#182038;--ink:#eef1fa;--mute:#a3adc7;--line:#2a3452;--acc:#8e7bff;--acc-ink:#0f1526;--soft:#252048;--ok:#4fd1a0;--warn:#f3b05c;--bad:#ff8087;--s:0 6px 24px rgba(0,0,0,.3)}}
+:root[data-theme="dark"]{--bg:#0f1526;--card:#182038;--ink:#eef1fa;--mute:#a3adc7;--line:#2a3452;--acc:#8e7bff;--acc-ink:#0f1526;--soft:#252048;--ok:#4fd1a0;--warn:#f3b05c;--bad:#ff8087;--s:0 6px 24px rgba(0,0,0,.3)}
+*,*:before,*:after{box-sizing:inherit}
+html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--f2)}
+h1,h2,h3{font-family:var(--f1);line-height:1.1;margin:0 0 .5em;letter-spacing:-.02em}
+h1{font-size:clamp(2.2rem,6vw,3.8rem);font-weight:800}h2{font-size:clamp(1.6rem,4vw,2.3rem)}h3{font-size:1.15rem}
+p{margin:0 0 1em;color:var(--mute);max-width:62ch}
+a{color:var(--acc)}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+.view{display:none;min-height:70vh}.view.on{display:block}
+nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+nav .wrap{display:flex;align-items:center;gap:14px;height:62px}
+.logo{font:800 1.2rem var(--f1);display:flex;align-items:center;gap:8px;cursor:pointer;background:none;border:0;color:var(--ink);padding:0}
+.logo i{width:30px;height:30px;border-radius:9px;background:var(--acc);display:grid;place-items:center}
+.sp{flex:1}
+.btn{font:700 .95rem var(--f2);border:0;border-radius:999px;padding:12px 22px;cursor:pointer;background:var(--acc);color:var(--acc-ink);transition:transform .15s}
+.btn:hover{transform:translateY(-1px)}.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}.btn.sm{padding:8px 16px;font-size:.88rem}.btn.full{width:100%}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:24px;box-shadow:var(--s)}
+.grid{display:grid;gap:18px}.g3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}.g2{grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
+section{padding:64px 0}
+.hero{display:grid;gap:40px;align-items:center;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));padding:56px 0 40px}
+.row{display:flex;gap:12px;flex-wrap:wrap}
+.phone{width:280px;margin:0 auto;border:9px solid var(--ink);border-radius:38px;padding:16px;background:var(--bg);transform:rotate(3deg)}
+.mini{background:var(--card);border-radius:14px;padding:10px 12px;margin-top:9px;font-size:.82rem}
+.bar{height:8px;border-radius:9px;background:var(--line);overflow:hidden;margin-top:6px}.bar b{display:block;height:100%;border-radius:9px;background:var(--ok)}
+.bar.w b{background:var(--warn)}.bar.b b{background:var(--bad)}
+.tl{list-style:none;margin:0;padding:0;display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.tl li{padding:20px;border-radius:var(--r);background:var(--card);border:1px solid var(--line)}
+.tl svg{width:34px;height:34px;stroke:var(--acc);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-bottom:10px}
+.tl li p{margin:0;font-size:.92rem}
+.tbl{width:100%;border-collapse:collapse;background:var(--card);border-radius:var(--r);overflow:hidden}
+.tbl th,.tbl td{padding:14px 16px;text-align:left;border-bottom:1px solid var(--line)}.tbl th{background:var(--soft)}
+.scroll{overflow-x:auto}
+.chip{display:inline-block;padding:7px 14px;border-radius:999px;background:var(--soft);font-weight:500;margin:0 8px 8px 0}
+.price{font:800 2.2rem var(--f1)}
+ul.ck{list-style:none;padding:0;margin:14px 0 20px}ul.ck li{padding:5px 0 5px 26px;position:relative}ul.ck li:before{content:"✓";position:absolute;left:0;color:var(--ok);font-weight:700}
+ul.ck li.no:before{content:"–";color:var(--mute)}
+.pro{border:2px solid var(--acc)}
+.badge{display:inline-block;background:var(--acc);color:var(--acc-ink);font-size:.78rem;font-weight:700;padding:3px 12px;border-radius:99px}
+.closing{font:800 clamp(1.5rem,4vw,2.4rem) var(--f1);text-align:center;max-width:22ch;margin:0 auto}
+footer{border-top:1px solid var(--line);padding:30px 0;color:var(--mute);font-size:.92rem}
+/* auth + forms */
+.auth{max-width:440px;margin:48px auto}
+label{display:block;font-weight:700;font-size:.9rem;margin:14px 0 6px}
+input,select{width:100%;font:inherit;padding:12px 14px;border-radius:14px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink)}
+.err{color:var(--bad);font-size:.9rem;min-height:1.3em;margin:8px 0 0}
+.stat{font:800 2rem var(--f1)}
+.item{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.item .m{flex:1;min-width:200px}.tag{font-size:.8rem;font-weight:700;padding:3px 10px;border-radius:99px;background:var(--soft)}
+.dz{border:2px dashed var(--line);border-radius:var(--r);padding:26px;text-align:center;margin-bottom:8px}
+.scan{height:6px;background:var(--line);border-radius:9px;overflow:hidden;margin-top:12px;display:none}.scan b{display:block;height:100%;width:0;background:var(--acc);transition:width 1.2s}
+.plan{cursor:pointer;display:block;margin:0 0 12px}.plan input{width:auto;margin-right:8px}
+.modal{position:fixed;inset:0;background:rgba(10,14,28,.6);display:none;place-items:center;z-index:50;padding:16px}.modal.on{display:grid}
+.modal .card{max-width:560px;width:100%;max-height:88vh;overflow:auto}
+pre{white-space:pre-wrap;font:.9rem/1.5 var(--f2);background:var(--bg);padding:14px;border-radius:14px;border:1px solid var(--line)}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:99px;display:none;z-index:60}
+.hide{display:none!important}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<nav aria-label="Main"><div class="wrap">
+ <button class="logo" onclick="go('home')" aria-label="Warranty Vault home"><i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg></i>Warranty Vault</button>
+ <span class="sp"></span>
+ <span id="navOut" class="row"><button class="btn ghost sm" onclick="go('signin')">Sign in</button><button class="btn sm" onclick="go('signup')">Create account</button></span>
+ <span id="navIn" class="row hide"><button class="btn ghost sm" onclick="go('app')">My vault</button><button class="btn ghost sm" onclick="go('premium')" id="navPro">Premium</button><button class="btn ghost sm" onclick="signOut()">Sign out</button></span>
+ <button class="btn ghost sm" id="theme" aria-label="Toggle dark mode">◐</button>
+</div></nav>
+
+<!-- HOME -->
+<main>
+<div class="view on" id="v-home">
+ <div class="wrap">
+  <div class="hero">
+   <div>
+    <h1>Snap a receipt. Never lose money on an expired warranty.</h1>
+    <p>Warranty Vault reads your receipts, counts down every warranty, and writes the claim email for you.</p>
+    <div class="row"><button class="btn" onclick="go('signup')">Try the demo</button><button class="btn ghost" onclick="document.getElementById('how').scrollIntoView()">Watch how it works</button></div>
+   </div>
+   <div class="phone" role="img" aria-label="Phone showing a warranty dashboard with money at risk">
+    <b>Money covered</b><div class="stat" style="color:var(--acc)">$2,378</div>
+    <div class="mini"><b>Noise-cancelling headphones</b><div class="bar w"><b style="width:18%"></b></div>41 days left</div>
+    <div class="mini"><b>Espresso machine</b><div class="bar"><b style="width:72%"></b></div>262 days left</div>
+    <div class="mini"><b>4K monitor</b><div class="bar"><b style="width:90%"></b></div>1 year, 11 months</div>
+   </div>
+  </div>
+ </div>
+ <section><div class="wrap"><h2>The paper trail always disappears first</h2>
+  <div class="grid g3">
+   <div class="card"><h3>The faded receipt</h3><p>Thermal paper fades in months. The proof you need is the first thing to go. (Illustrative)</p></div>
+   <div class="card"><h3>The "it was fine last week" deadline</h3><p>A blender dies on day 366 of a one-year warranty. (Illustrative scenario)</p></div>
+   <div class="card"><h3>The hunt through the drawer</h3><p>Three boxes, two emails, no receipt. Hours lost, refund missed. (Illustrative)</p></div>
+  </div></div></section>
+ <section id="how" style="background:var(--card)"><div class="wrap"><h2>How it works</h2>
+  <ol class="tl">
+   <li><svg viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg><h3>1. Capture</h3><p>Photograph a receipt, product box, or warranty card.</p></li>
+   <li><svg viewBox="0 0 24 24"><path d="M8 3h8M6 7h12M6 11h12M6 15h7"/><rect x="3" y="2" width="18" height="20" rx="3"/></svg><h3>2. Extract</h3><p>A vision LLM returns item, date, price, store and warranty length, stated or inferred.</p></li>
+   <li><svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/></svg><h3>3. Store</h3><p>Saved on your device. No backend, no account data in the cloud.</p></li>
+   <li><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg><h3>4. Track</h3><p>See days remaining and the dollar value of warranties still active.</p></li>
+   <li><svg viewBox="0 0 24 24"><path d="M6 17V11a6 6 0 0112 0v6l2 2H4zM10 21h4"/></svg><h3>5. Alert</h3><p>A local notification arrives a few days before expiry.</p></li>
+   <li><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 8l9 6 9-6"/></svg><h3>6. Act</h3><p>"Draft return email" writes a ready-to-send claim to copy or share.</p></li>
+  </ol></div></section>
+ <section><div class="wrap"><h2>Try it in 20 seconds</h2><p>Create a free account, tap "Scan sample receipt", and watch an item land in your vault. All data is demo data on your device.</p><button class="btn" onclick="go('signup')">Start the demo</button></div></section>
+ <section style="background:var(--card)"><div class="wrap"><h2>Why it's different</h2>
+  <div class="scroll"><table class="tbl"><thead><tr><th></th><th>Plain receipt scanner</th><th>Warranty Vault</th></tr></thead><tbody>
+   <tr><td>Stores receipt data</td><td>Yes</td><td>Yes</td></tr>
+   <tr><td>Calculates expiry</td><td>Rarely</td><td>Always, even when not printed</td></tr>
+   <tr><td>Shows money at risk</td><td>No</td><td>Live dollar total</td></tr>
+   <tr><td>Takes action for you</td><td>No</td><td>Drafts the claim email</td></tr></tbody></table></div></div></section>
+ <section><div class="wrap"><h2>Simple pricing</h2><div class="grid g2" id="homePrice"></div></div></section>
+ <section style="background:var(--card)"><div class="wrap"><h2>Built with</h2>
+  <span class="chip">Vision LLM API</span><span class="chip">Local database</span><span class="chip">Local notifications</span><span class="chip">RevenueCat</span></div></section>
+ <section><div class="wrap"><p class="closing">Next: barcode scanning and retailer partnerships.</p></div></section>
+</div>
+
+<!-- SIGN IN -->
+<div class="view" id="v-signin"><div class="wrap"><div class="card auth">
+ <h2>Welcome back</h2><p>Sign in to open your vault.</p>
+ <label for="siE">Email</label><input id="siE" type="email" autocomplete="email">
+ <label for="siP">Password</label><input id="siP" type="password" autocomplete="current-password">
+ <p class="err" id="siErr" role="alert"></p>
+ <button class="btn full" onclick="signIn()">Sign in</button>
+ <p style="margin:16px 0 0">New here? <a href="#signup">Create an account</a></p>
+</div></div></div>
+
+<!-- SIGN UP -->
+<div class="view" id="v-signup"><div class="wrap"><div class="card auth">
+ <h2>Create your vault</h2><p>Free for up to 3 items. Your data stays on this device.</p>
+ <label for="suN">Name</label><input id="suN" autocomplete="name">
+ <label for="suE">Email</label><input id="suE" type="email" autocomplete="email">
+ <label for="suP">Password (6+ characters)</label><input id="suP" type="password" autocomplete="new-password">
+ <p class="err" id="suErr" role="alert"></p>
+ <button class="btn full" onclick="signUp()">Create account</button>
+ <p style="margin:16px 0 0">Have an account? <a href="#signin">Sign in</a></p>
+</div></div></div>
+
+<!-- DASHBOARD -->
+<div class="view" id="v-app"><div class="wrap" style="padding-top:36px;padding-bottom:60px">
+ <div class="row" style="align-items:center;justify-content:space-between"><div><h2 id="hi" style="margin:0">Your vault</h2><p id="plan" style="margin:0"></p></div><button class="btn" onclick="addNew()">+ New warranty item</button></div>
+ <div class="grid g3" style="margin:22px 0">
+  <div class="card"><p style="margin:0">Money at risk</p><div class="stat" id="sRisk" style="color:var(--acc)">$0</div></div>
+  <div class="card"><p style="margin:0">Active warranties</p><div class="stat" id="sAct">0</div></div>
+  <div class="card"><p style="margin:0">Expiring in 30 days</p><div class="stat" id="sSoon">0</div></div>
+ </div>
+ <div class="grid" id="list"></div>
+</div></div>
+
+<!-- NEW ITEM -->
+<div class="view" id="v-add"><div class="wrap"><div class="card auth" style="max-width:560px">
+ <h2>New warranty item</h2>
+ <div class="dz"><p style="margin:0 auto 12px">Photograph a receipt, box, or warranty card</p><button class="btn ghost sm" onclick="scan()">Scan sample receipt</button><div class="scan" id="scanBar" aria-hidden="true"><b></b></div><p id="scanMsg" style="margin:10px auto 0;font-size:.9rem"></p></div>
+ <label for="aN">Item</label><input id="aN">
+ <div class="grid g2" style="gap:0 14px"><div><label for="aS">Store</label><input id="aS"></div><div><label for="aP">Price ($)</label><input id="aP" type="number" min="0"></div>
+ <div><label for="aD">Purchase date</label><input id="aD" type="date"></div><div><label for="aW">Warranty (months)</label><input id="aW" type="number" min="1" max="120"></div></div>
+ <p class="err" id="aErr" role="alert"></p>
+ <div class="row"><button class="btn" onclick="saveItem()">Save to vault</button><button class="btn ghost" onclick="go('app')">Cancel</button></div>
+</div></div></div>
+
+<!-- PAYWALL -->
+<div class="view" id="v-pay"><div class="wrap"><div class="card auth" style="max-width:520px">
+ <span class="badge">Pro</span>
+ <h2 style="margin-top:12px" id="payH">Keep every warranty covered</h2>
+ <p id="payWhy">Free plans track 3 items and don't include drafted emails.</p>
+ <ul class="ck"><li>Unlimited items</li><li>Auto-drafted claim and return emails</li><li>Expiry alerts for every item</li></ul>
+ <label class="plan card" style="padding:14px"><input type="radio" name="pl" value="monthly" checked> Monthly <b style="float:right">$3.99</b></label>
+ <label class="plan card" style="padding:14px"><input type="radio" name="pl" value="annual"> Annual <b style="float:right">$29.99 <span class="tag">save 37%</span></b></label>
+ <p class="err" id="payMsg" role="status"></p>
+ <button class="btn full" id="buy" onclick="buy()">Unlock Pro</button>
+ <p style="margin:14px 0 0;font-size:.85rem">Sandbox purchase through RevenueCat. No real charge.</p>
+ <button class="btn ghost full" style="margin-top:10px" onclick="go('app')">Maybe later</button>
+</div></div></div>
+
+<!-- PREMIUM -->
+<div class="view" id="v-premium"><div class="wrap" style="padding:40px 20px 60px">
+ <div id="premOn" class="hide"><span class="badge">Pro active</span><h2 style="margin-top:12px">You're covered, <span id="pn"></span></h2>
+  <p>Unlimited items and drafted emails are unlocked.</p>
+  <div class="grid g3"><div class="card"><h3>Unlimited items</h3><p>Add every appliance, gadget and gift.</p></div><div class="card"><h3>Draft return email</h3><p>One tap on any item in your vault.</p></div><div class="card"><h3>Every alert</h3><p>Notifications before each expiry.</p></div></div>
+  <div class="row" style="margin-top:20px"><button class="btn" onclick="go('app')">Back to my vault</button><button class="btn ghost" onclick="cancelPro()">End sandbox subscription</button></div></div>
+ <div id="premOff"><h2>Go Pro</h2><p>See what changes when you upgrade.</p><div class="grid g2" id="premPrice"></div></div>
+</div></div>
+</main>
+
+<footer><div class="wrap">Warranty Vault, a hackathon project. <a href="#">Devpost link</a> · <a href="mailto:hello@example.com">hello@example.com</a> (placeholders)</div></footer>
+
+<div class="modal" id="mail" role="dialog" aria-modal="true" aria-label="Draft return email"><div class="card">
+ <h3>Draft return email</h3><pre id="mailTxt"></pre>
+ <div class="row"><button class="btn" onclick="copyMail()">Copy email</button><button class="btn ghost" onclick="document.getElementById('mail').classList.remove('on')">Close</button></div></div></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@revenuecat/purchases-js@1.0.0/dist/Purchases.umd.js" onerror="window.__rcFail=1"></script>
+<script>
+const RC_KEY='test_OAHnTjVUPYvUSapPhEoSLMDbGwR', FREE=3, $=id=>document.getElementById(id);
+const store={get(k,d){try{const v=localStorage.getItem('wv_'+k);return v?JSON.parse(v):d}catch(e){return mem[k]??d}},set(k,v){mem[k]=v;try{localStorage.setItem('wv_'+k,JSON.stringify(v))}catch(e){}}};const mem={};
+let users=store.get('users',{}), cur=store.get('cur',null), why='limit', rc=null;
+const me=()=>users[cur], save=()=>store.set('users',users);
+const SAMPLES=[{n:'Noise-cancelling headphones',s:'TechMart',p:349,w:12,ago:324},{n:'Espresso machine',s:'HomeHaus',p:599,w:24,ago:95},{n:'4K monitor',s:'PixelWorld',p:429,w:36,ago:40},{n:'Robot vacuum',s:'CleanCo',p:279,w:12,ago:20}];let si=0;
+function toast(t){const e=$('toast');e.textContent=t;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display='none',2400)}
+function initRC(){try{if(window.Purchases&&cur){const P=window.Purchases.Purchases||window.Purchases;rc=P.configure(RC_KEY,cur);}}catch(e){rc=null}}
+const guarded=['app','add','pay'];
+function go(v){location.hash=v}
+function route(){let v=(location.hash||'#home').slice(1);if(!$('v-'+v))v='home';
+ if(guarded.includes(v)&&!cur)v='signin';
+ if(['signin','signup'].includes(v)&&cur)v='app';
+ document.querySelectorAll('.view').forEach(e=>e.classList.toggle('on',e.id==='v-'+v));
+ $('navIn').classList.toggle('hide',!cur);$('navOut').classList.toggle('hide',!!cur);
+ if(v==='app')render();if(v==='premium')renderPrem();window.scrollTo(0,0);}
+addEventListener('hashchange',route);
+function days(it){const d=new Date(it.date);d.setMonth(d.getMonth()+it.months);return Math.ceil((d-new Date())/864e5)}
+function render(){const u=me();$('hi').textContent='Hi '+u.name.split(' ')[0]+', here is your vault';
+ $('plan').textContent=u.pro?'Pro plan: unlimited items':'Free plan: '+u.items.length+' of '+FREE+' items used';
+ const act=u.items.filter(i=>days(i)>0);
+ $('sRisk').textContent='$'+act.reduce((a,i)=>a+i.price,0).toLocaleString();$('sAct').textContent=act.length;$('sSoon').textContent=act.filter(i=>days(i)<=30).length;
+ $('list').innerHTML=u.items.length?u.items.map((it,k)=>{const d=days(it),tot=it.months*30.4,pct=Math.max(0,Math.min(100,d/tot*100)),c=d<=0?'b':d<=45?'w':'';
+  return `<div class="card item"><div class="m"><h3 style="margin:0">${esc(it.name)}</h3><p style="margin:0;font-size:.9rem">${esc(it.store)} · $${it.price} · ${it.months} mo warranty</p><div class="bar ${c}"><b style="width:${pct}%"></b></div></div><span class="tag">${d>0?d+' days left':'Expired'}</span><button class="btn ghost sm" onclick="draft(${k})">Draft return email</button><button class="btn ghost sm" aria-label="Delete ${esc(it.name)}" onclick="del(${k})">Delete</button></div>`}).join(''):'<div class="card"><h3>Your vault is empty</h3><p>Add your first receipt to start the countdown.</p><button class="btn" onclick="addNew()">Scan your first receipt</button></div>';}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function showPay(w){why=w;$('payH').textContent=w==='limit'?'Your free vault is full':'Draft emails with Pro';$('payWhy').textContent=w==='limit'?'Free plans track up to 3 items. Upgrade to add a 4th and keep every warranty covered.':'Auto-drafted return and claim emails are a Pro feature.';$('payMsg').textContent='';go('pay')}
+function addNew(){if(!me().pro&&me().items.length>=FREE)return showPay('limit');['aN','aS','aP','aD','aW'].forEach(i=>$(i).value='');$('aErr').textContent='';$('scanMsg').textContent='';go('add')}
+function scan(){const s=SAMPLES[si++%SAMPLES.length],b=$('scanBar');b.style.display='block';b.firstChild.style.width='0';$('scanMsg').textContent='Reading receipt…';
+ setTimeout(()=>b.firstChild.style.width='100%',30);
+ setTimeout(()=>{const d=new Date();d.setDate(d.getDate()-s.ago);$('aN').value=s.n;$('aS').value=s.s;$('aP').value=s.p;$('aW').value=s.w;$('aD').value=d.toISOString().slice(0,10);$('scanMsg').textContent='Extracted. Check the details, then save.';b.style.display='none'},1300)}
+function saveItem(){const n=$('aN').value.trim(),p=+$('aP').value,w=+$('aW').value,d=$('aD').value;
+ if(!n||!d||!(w>0)||!(p>=0)||$('aP').value==='')return $('aErr').textContent='Add an item name, price, purchase date and warranty length.';
+ if(!me().pro&&me().items.length>=FREE)return showPay('limit');
+ me().items.push({name:n,store:$('aS').value.trim()||'Unknown store',price:p,months:w,date:d});save();toast('Saved to vault');go('app')}
+function del(k){me().items.splice(k,1);save();render()}
+function draft(k){if(!me().pro)return showPay('email');const it=me().items[k],d=days(it);
+ $('mailTxt').textContent=`Subject: Warranty claim for ${it.name}\n\nHello ${it.store} support team,\n\nI purchased a ${it.name} for $${it.price} on ${it.date}. It is covered by a ${it.months}-month warranty${d>0?' that remains valid for another '+d+' days':''}.\n\nThe product is not working as expected, and I would like to request a repair, replacement, or refund under the warranty. I can provide my receipt on request.\n\nPlease let me know the next steps.\n\nThank you,\n${me().name}`;$('mail').classList.add('on')}
+function copyMail(){const t=$('mailTxt').textContent;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast('Email copied')).catch(()=>{const r=document.createRange();r.selectNode($('mailTxt'));getSelection().removeAllRanges();getSelection().addRange(r);toast('Select and copy the text')})}
+async function buy(){const btn=$('buy'),m=$('payMsg');btn.disabled=true;m.style.color='var(--mute)';m.textContent='Contacting RevenueCat sandbox…';
+ try{
+  if(rc&&rc.getOfferings){const o=await rc.getOfferings();const pkg=o.current&&o.current.availablePackages[0];if(pkg)await rc.purchase({rcPackage:pkg});}
+ }catch(e){/* offline or not configured: continue in sandbox mode */}
+ await new Promise(r=>setTimeout(r,700));
+ me().pro=true;save();btn.disabled=false;m.textContent='';toast('Pro unlocked (sandbox)');go(why==='email'?'app':'premium')}
+function cancelPro(){me().pro=false;save();renderPrem();toast('Back on Free')}
+function priceCards(){return `<div class="card"><h3>Free</h3><div class="price">$0</div><ul class="ck"><li>Track up to 3 items</li><li>Dashboard and money at risk</li><li>Expiry alerts</li><li class="no">Draft return email (paywall)</li><li class="no">4th item (paywall)</li></ul><button class="btn ghost full" onclick="go('signup')">Start free</button></div><div class="card pro"><span class="badge">Pro</span><div class="price">$3.99<small style="font:400 1rem var(--f2)">/mo</small></div><ul class="ck"><li>Unlimited items</li><li>Auto-drafted claim emails</li><li>Everything in Free</li></ul><button class="btn full" onclick="${cur?"showPay('limit')":"go('signup')"}">Get Pro</button></div>`}
+function renderPrem(){const pro=me()&&me().pro;$('premOn').classList.toggle('hide',!pro);$('premOff').classList.toggle('hide',!!pro);if(pro)$('pn').textContent=me().name.split(' ')[0];$('premPrice').innerHTML=priceCards()}
+$('homePrice').innerHTML=priceCards();
+function signUp(){const n=$('suN').value.trim(),e=$('suE').value.trim().toLowerCase(),p=$('suP').value;
+ if(!n||!/^\S+@\S+\.\S+$/.test(e))return $('suErr').textContent='Enter your name and a valid email.';
+ if(p.length<6)return $('suErr').textContent='Use a password with at least 6 characters.';
+ if(users[e])return $('suErr').textContent='That email already has an account. Sign in instead.';
+ users[e]={name:n,pass:btoa(p),items:[],pro:false};save();cur=e;store.set('cur',e);initRC();$('suErr').textContent='';go('app');toast('Welcome to Warranty Vault')}
+function signIn(){const e=$('siE').value.trim().toLowerCase(),u=users[e];
+ if(!u||u.pass!==btoa($('siP').value))return $('siErr').textContent='Email or password is incorrect. Check both and try again.';
+ cur=e;store.set('cur',e);initRC();$('siErr').textContent='';go('app')}
+function signOut(){cur=null;store.set('cur',null);go('home')}
+$('theme').onclick=()=>{const r=document.documentElement,d=r.dataset.theme==='dark'||(!r.dataset.theme&&matchMedia('(prefers-color-scheme:dark)').matches);r.dataset.theme=d?'light':'dark'};
+$('mail').addEventListener('click',e=>{if(e.target.id==='mail')e.target.classList.remove('on')});
+addEventListener('keydown',e=>{if(e.key==='Escape')$('mail').classList.remove('on')});
+initRC();route();
+</script>
+</body>
+</html>

@@ -1,6 +1,0 @@
-{
-  "name": "AppBase Modular Workspace",
-  "description": "A high-performance modular application base featuring relational data tables, Kanban project management, rich documentation, and real-time metrics.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
